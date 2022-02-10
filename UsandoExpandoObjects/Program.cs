@@ -12,12 +12,14 @@ namespace UsandoExpandoObjects
 
             int op = 0;
 
-            while(true)
+            while(op!=3)
             {
                 Console.Clear();
+                Console.WriteLine("+++ Usando ExpandoObjects +++");
                 Console.WriteLine("=== 1- Adicionar Propriedade ao Objeto ===");
                 Console.WriteLine("=== 2- Lista Objeto ===");
                 Console.WriteLine("=== 3- Sair ===");
+                Console.Write(">>> Digite sua opção: ");
                 op = int.Parse(Console.ReadLine());
                 switch (op)
                 {
@@ -25,48 +27,46 @@ namespace UsandoExpandoObjects
                         Console.Clear();
                         Console.Write("Informe uma propriedade: ");
                         string prop = Console.ReadLine();
-                        Console.Write("Informe uma propriedade: ");
+                        Console.Write("Informe o valor: ");
                         string valor = Console.ReadLine();
-                        CriarObjeto(prop, valor);
+                        AdicionarPropriedade(expando, prop, valor);
                         break;
                     case 2:
                         Console.Clear();
                         ListarObjeto(expando);
-                        Console.Read();
+                        Console.ReadKey();
                         break;
                     case 3:
-                         Console.WriteLine("Encerrando");
+                         Console.WriteLine("Encerrando. Aperte qualquer tecla para encerrar.");
                          Console.ReadKey();
-                         return;
-                      
+                         op = 3;
+                         break;
+                    default: Console.WriteLine("Opção não contemplada no menu.");
+                        break;                      
                 }
             }
         }
 
-        public static void CriarObjeto(string prop,string valor)
-        {
-            expando.Nome = "André";
-            expando.profissao = "Dev";
-            expando.prop = valor;
-        }
         public static void ListarObjeto(ExpandoObject expo)
         {
+            Console.Clear();
+            Console.WriteLine("+++ Listando as propriedades do objeto +++");
             var expandoDict = expo as IDictionary<string, object>;
             foreach (var item in expandoDict)
             {
                 Console.Write(item.Key);
-                Console.Write("=");
+                Console.Write(" = ");
                 Console.WriteLine(item.Value);
             }
         }
-        public static void AddProperty(ExpandoObject expando, string propertyName, object propertyValue)
+        public static void AdicionarPropriedade(ExpandoObject expand, string nomePropriedade, object valorPropriedade)
         {
             // ExpandoObject da suporte a IDictionary então podemos estendê-lo assim:
-            var expandoDict = expando as IDictionary<string, object>;
-            if (expandoDict.ContainsKey(propertyName))
-                expandoDict[propertyName] = propertyValue;
+            var expandoDict = expand as IDictionary<string, object>;
+            if (expandoDict.ContainsKey(nomePropriedade))
+                expandoDict[nomePropriedade] = valorPropriedade;
             else
-                expandoDict.Add(propertyName, propertyValue);
+                expandoDict.Add(nomePropriedade, valorPropriedade);
         }
     }
 }
